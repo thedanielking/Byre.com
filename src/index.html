@@ -1,0 +1,576 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./output.css" rel="stylesheet">
+
+  <!-- my google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    :root{
+        --bg--transparent: rgba(0, 0, 0, 0.678);
+        --clr--primary--100: rgb(203, 56, 248);
+        --clr--secondary--100: rgb(33, 9, 248);
+        --clr--secondary--200: rgb(115, 115, 117);
+        --clr--secondary--300: rgb(247, 185, 185);
+        --clr--secondary--400: rgb(200, 243, 241);
+        --clr--secondary--500: rgb(243, 218, 171);
+        --clr--secondary--600: rgb(184, 203, 243);
+        --clr--secondary--700: rgb(182, 241, 195);
+        --bg--img: linear-gradient(to right, var(--clr--primary--100), var(--clr--secondary--100));
+
+        
+        font-family: "Open Sans", sans-serif;
+    }
+
+    .polygon{
+        width: 54px;
+        height: 54px;
+        position: absolute;
+        top: 0;
+        display: flex;
+    }
+
+.tag-list{
+    margin: 0;
+    padding-inline: 0;
+    list-style: none;
+}
+
+.tag-list img{
+    max-width: 2.5rem;
+}
+
+.tag-list li{
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem -0.25rem var(--clr--secondary--100)
+}
+
+.scroll{
+    margin-bottom: 2rem;
+    margin-top: 4rem;
+}
+
+.scroller{
+    max-width: 100%;
+    outline: 3px solid lime;
+}
+
+.scroller_inner{
+    padding-block: 1rem; /*this is padding for top and bottom*/
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+}
+
+
+.scroller[data-animated="true"]{
+    overflow: hidden;
+    -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+    mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+}
+
+.scroller[data-animated="true"] .scroller_inner{
+    width: max-content;
+    flex-wrap: nowrap;
+    animation: scroll 
+    var(--_animation-duration, 80s)
+    var(--_animation-direction, forwards) linear 
+     infinite; /* the linear property prevents misdirection when other contents are added to the animation. The infinite keeps moving rather than restarting.*/
+}
+
+
+
+.scroller[data-direction="right"]{
+    --_animation-direction: reverse;
+}
+
+.scroller[data-direction="left"]{
+    --_animation-direction: forwards;
+}
+
+
+/* for images or logos */
+.scroller[data-speed="slow"]{
+    --_animation-duration: 120s;
+}
+
+.scroller[data-speed="fast"]{
+    --_animation-duration: 20s;
+}
+
+@keyframes scroll{
+    to {
+        transform: 
+        translate(calc(-100% - .5rem)); /*100% makes it go in the right direction while -100% makes it go in the left direction*/
+    }
+}
+
+@keyframes slidein{
+      from{
+        right: -1000px;
+      }
+      to{
+        right: 0px;
+      }
+    }
+
+
+</style>
+
+
+<body>
+
+    <header class="flex justify-between p-4 items-center border-b border-b-gray-100 mb-4">
+        <div class="w-20">
+            <img src="/images/Group 3.png" alt="Logo">
+        </div>
+
+        <nav class="hidden lg:block">
+            <ul class="flex gap-9">
+                <li class="hover:text-(--clr--secondary--100) cursor-pointer px-4 py-1 rounded-xl hover:bg-gray-200 hover:text-(--clr--secondary--100) transition duration-150 ease-in"><a href="#home">Home</a></li>
+                <li class="hover:text-(--clr--secondary--100) cursor-pointer px-4 py-1 rounded-xl hover:bg-gray-200 hover:text-(--clr--secondary--100) transition duration-150 ease-in"><a href="#aboutUs">About</a></li>
+                <li class="hover:text-(--clr--secondary--100) cursor-pointer px-4 py-1 rounded-xl hover:bg-gray-200 hover:text-(--clr--secondary--100) transition duration-150 ease-in"><a href="#features">Features</a></li>
+                <li class="hover:text-(--clr--secondary--100) cursor-pointer px-4 py-1 rounded-xl hover:bg-gray-200 hover:text-(--clr--secondary--100) transition duration-150 ease-in"><a href="#faq">FAQ</a></li>
+                <li class="hover:text-(--clr--secondary--100) cursor-pointer px-4 py-1 rounded-xl hover:bg-gray-200 hover:text-(--clr--secondary--100) transition duration-150 ease-in"><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <div class="flex gap-6 hidden md:block">
+            <button class="hover:ring-2 ring-(--clr--secondary--100) py-3 px-9 cursor-pointer hover:shadow-lg rounded-xl mr-4 transition duration-150 ease-in"><a href="">Login</a></button>
+            <button class="py-3 px-9 bg-(--clr--secondary--100) text-white hover:shadow-lg cursor-pointer rounded-xl transition duration-150 ease-in hover:bg-blue-800"><a href="">Sign Up</a></button>
+        </div>
+
+        <img src="/images/reorder-three-outline.svg" alt="menu" class="w-8 md:hidden cursor-pointer" id="menuBtn">
+    </header>
+
+    <div class="fixed top-0 h-[100vh] w-[100vw] bg-(--bg--transparent) z-2 hidden " id="sideNav">
+        <div class="flex flex-col gap-9 text-white bg-black h-[100vh] w-[80%] right-0 absolute py-9 px-6 animate-[slidein_1s_ease-in-out_forwards]">
+            <img src="/images/icon-close.svg" alt="closeBtn" class="w-10 cursor-pointer" id="closeBtn">
+            <a href="#home" class="text-xl hover:text-underline">Home</a>
+            <a href="#aboutUs" class="text-xl hover:text-underline">About</a>
+            <a href="#features" class="text-xl hover:text-underline">Features</a>
+            <a href="#faq" class="text-xl hover:text-underline">FAQ</a>
+            <a href="#contact" class="text-xl hover:text-underline">Contact</a>
+        </div>
+    </div>
+
+    <main>
+        <section aria-describedby="banner" class="flex flex-col gap-9 justify-center items-center p-4 md:w-1/2 md:mx-auto md:mt-20 lg:w-full" id="home">
+            <h1 class="text-3xl mx-auto text-center md:text-4xl lg:text-6xl">Everything you need, <span class="block mt-4 font-bold bg-gradient-to-r from-(--clr--primary--100) to-(--clr--secondary--100) text-transparent bg-clip-text">Just Around the Corner</span></h1>
+            <p class="text-center text-lg lg:text-xl text-(--clr--secondary--200)">Your hub for Local Shopping and Hiring</p>
+            <button class="border w-full mx-auto py-4 bg-(--clr--secondary--100) text-white lg:py-4 lg:text-xl rounded-xl cursor-pointer hover:shadow-lg text-lg lg:w-fit lg:py-6 lg:px-20 transition duration-300 ease-in hover:bg-blue-800">Explore</button>
+        </section>
+
+        <!-- scroller -->
+        <article  class="scroll">
+            <div class="scroller" data-direction="left" data-animated="true">
+                <ul class="tag-list scroller_inner">
+                    <li>Web Design</li>
+                    <li>Mentorship</li>
+                    <li>Videography</li>
+                    <li>Jewellries</li>
+                    <li>Transportation</li>
+                    <li>Cosmetics</li>
+                    <li>Photography</li>
+                    <li>Graphic Design</li>
+                    <li>Tutoring</li>
+                    <li>Clothes</li>
+                    <li>Shoes</li>
+                    <li>Perfumes</li>
+                    <li>Watches</li>
+                    <li>NailTech</li>
+                </ul>
+            </div>
+        </article>
+
+        <section aria-describedby="about us" class="flex flex-col gap-4 lg:flex-row md:justify-center lg:justify-between md:items-center p-4 mb-25" id="aboutUs">
+            <img src="/images/Group 6.png" class="w-40 lg:w-1/2" alt="aboutUsImg">
+            <div class="space-y-4 lg:w-1/2">
+                <h2 class="text-2xl text-(--clr--secondary--100) lg:text-3xl font-bold">About Us</h2>
+                <h3 class=" font-bold lg:text-3xl">Your Local Marketplace for Products and Services</h3>
+                <p class="text-(--clr--secondary--200)lg:text-lg">We're a SAAS company dedicated to creating a platform to buy products and hire services locally and also help build an online presence for businesses/services.</p>
+                <ul>
+                    <div class="flex gap-4 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon w-10 fill-current text-(--clr--secondary--100)" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
+                        <p>Connect with local sellers.</p>
+                    </div>
+                    <div class="flex gap-4 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon w-10 fill-current text-(--clr--secondary--100)" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
+                        <p>Connect with local buyers.</p>
+                    </div>
+                    <div class="flex gap-4 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon w-10 fill-current text-(--clr--secondary--100)" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
+                        <p>Build online presence.</p>
+                    </div>
+                </ul>
+            </div>
+        </section>
+
+        <section aria-describedby="feature" class="flex flex-col md:flex-row p-4 md:justify-between md:items-center gap-9 mb-25" id="features">
+            <div class="space-y-4 md:w-1/2">
+                <h2 class="uppercase text-2xl text-(--clr--secondary--100) lg:text-3xl font-bold">Features</h2>
+                <h3 class="font-bold md:text-2xl lg:text-3xl">Buy Local, Hire Local- Simplify Your Life</h3>
+                <p class="text-(--clr--secondary--200) lg:text-lg">Our feature-rich SaaS platform quickens your search to buy products or hire services. Seamlessly locate products or services without high delivery costs, long delivery time and lack of reliability on sellers.
+                Our Solution helps showcase your products and services to nearby customers who need them.
+                </p>
+                <p class="text-(--clr--secondary--200) lg:text-lg">Supercharge your business and achieve unparalleled success with our powerful SaaS solution</p>
+            </div>
+
+            <div class="flex flex-col gap-9 md:w-1/2">
+
+                <div class="flex gap-6">
+                    <div class="w-60 h-20 bg-(--clr--secondary--300) flex">
+                        <img src="/images/location-outline.svg" alt="img" class="w-10 mx-auto">
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-bold lg:text-xl">Location-Based Search</p>
+                        <p class="text-(--clr--secondary--200)">Effortlessly find nearby services and products just around you.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6">
+                    <div class="w-60 h-20 bg-(--clr--secondary--400) flex">
+                        <img src="/images/chatbubbles-outline.svg" alt="img" class="w-10 mx-auto">
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-bold lg:text-xl">In-Chat App</p>
+                        <p class="text-(--clr--secondary--200)">Negotitate with products and service sellers on an end-to-end chat app. </p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6">
+                    <div class="w-60 h-20 bg-(--clr--secondary--600) flex">
+                        <img src="/images/star-outline.svg" alt="img" class="w-10 mx-auto">
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-bold lg:text-xl">Review System</p>
+                        <p class="text-(--clr--secondary--200)">Build trust by going through sellers reviews and testimonials from recent clients they've worked for.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section aria-describedby="cta" class="flex flex-col m-4 md:flex-row bg-gradient-to-r from-(--clr--primary--100) to-(--clr--secondary--100) text-white py-9 px-6 gap-9 rounded-3xl mb-25 lg:items-center" >
+            <div class="space-y-4 lg:w-3/5">
+                <h2 class="text-2xl font-bold">Embrace our SaaS platform today</h2>
+                <p>Elevate Your Business to New Heights of Success with our Cutting-Edge SaaS Solution</p>
+                <button class="bg-white text-(--clr--secondary--100) text-sm py-2 px-6 rounded-xl shadow-lg lg:py-4 lg:px-9 font-bold cursor-pointer hover:bg-(--clr--secondary--100) hover:text-white transition duration-150 ease-in">Let's get started</button>
+            </div>
+            <img src="/images/Group 5.png" alt="byre" class="md:w-30 lg:w-2/5 lg:h-80">
+        </section>
+
+        <section class="mt-25 mb-25">
+            <h2 class="text-center text-2xl text-(--clr--secondary--100) lg:text-3xl mb-4 font-bold">Why Choose Us?</h2>
+
+            <div class="px-4 py-9 grid gap-6 md:grid-cols-2 lg:grid-cols-4 place-center md:p-9">
+
+                <div class="border border-gray-300 rounded-2xl px-6 py-12 flex flex-col justify-center relative">
+                    <div class="polygon bg-(--clr--secondary--300)">
+                        <img src="/images/school-outline.svg" alt="img" class="w-8 mx-auto">
+                    </div>
+                    <div class="space-y-4 mt-10">
+                        <p class="text-xl font-bold">Campus Focused</p>
+                        <p class="text-gray-600">We are solely focused on students business and student's needs for products and services.</p>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 rounded-2xl px-6 py-12 flex flex-col justify-center relative">
+                    <div class="polygon bg-(--clr--secondary--400)">
+                        <img src="/images/people-outline.svg" alt="img" class="w-8 mx-auto">
+                    </div>
+                    <div class="space-y-4 mt-10">
+                        <p class="text-xl font-bold">Community Building</p>
+                        <p class="text-gray-600">More than just transactions, We Are Building A Community. A community that helps you find products and services easily.</p>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 rounded-2xl px-6 py-12 flex flex-col justify-center relative">
+                    <div class="polygon bg-(--clr--secondary--500)">
+                        <img src="/images/wallet-outline.svg" class="w-8 mx-auto" alt="img">
+                    </div>
+                    <div class="space-y-4 mt-10">
+                        <p class="text-xl font-bold">Exclusive Deals</p>
+                        <p class="text-gray-600">We offer access exclusive students deals on the platform for business owners and buyers of those products and services.</p>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 rounded-2xl px-6 py-12 flex flex-col justify-center relative">
+                    <div class="polygon bg-(--clr--secondary--600)">
+                        <img src="/images/globe-outline.svg" class="w-8 mx-auto" alt="img">
+                    </div>
+                    <div class="space-y-4 mt-10">
+                        <p class="text-xl font-bold">Online Presence</p>
+                        <p class="text-gray-600">Boost your online presence as a product seller or service provider. Increase your reach to potential customers by posting your business on our website.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section>
+            <h2 class="uppercase text-center text-(--clr--secondary--100) text-2xl mb-4 lg:text-3xl font-bold">How it works</h2>
+            <h3 class="capitalize font-bold text-center lg:text-2xl">streamlining your buying/hiring processes</h3>
+
+            <div class="grid px-4 py-12 gap-6 md:grid-cols-2 place-center">
+
+                <div class="border border-gray-300 rounded-xl px-6 py-9 space-y-4 hover:shadow-lg hover:bg-gradient-to-r from-(--clr--primary--100) to-(--clr--secondary--100) group cursor-pointer transition duration-500 ease-in-out">
+                    <h2 class="text-center text-3xl text-(--clr--secondary--100) font-bold group-hover:text-white">01</h2>
+                    <p class="text-center font-bold group-hover:text-white lg:text-xl">Sign Up</p>
+                    <p class="text-center text-gray-600 group-hover:text-white">Start by signing up for our SaaS platform and scrolling through several business thumbnails and profile pages. Filter your search to fit what you are looking for in particular.</p>
+                </div>
+
+                <div class="border border-gray-300 rounded-xl px-6 py-9 space-y-4 hover:shadow-lg hover:bg-gradient-to-r from-(--clr--primary--100) to-(--clr--secondary--100) group cursor-pointer transition duration-500 ease-in-out">
+                    <h2 class="text-center text-3xl text-(--clr--secondary--100) font-bold group-hover:text-white">02</h2>
+                    <p class="text-center font-bold group-hover:text-white lg:text-xl">Buy/Hire</p>
+                    <p class="text-center text-gray-600 group-hover:text-white">Buy the products or hire the service you need by contacting the business owners through clicking the "Buy" or "Hire" button. Negotitate(if applicable) with the sellers in our in-chat app system.</p>
+                </div>
+
+                <div class="border border-gray-300 rounded-xl px-6 py-9 space-y-4 hover:shadow-lg hover:bg-gradient-to-r from-(--clr--primary--100) to-(--clr--secondary--100) group cursor-pointer transition duration-500 ease-in-out">
+                    <h2 class="text-center text-3xl text-(--clr--secondary--100) font-bold group-hover:text-white">03</h2>
+                    <p class="text-center font-bold group-hover:text-white lg:text-xl">Payment</p>
+                    <p class="text-center text-gray-600 group-hover:text-white">If satisfied with the products or services and negotiation price(if applicable), make a move by paying into our escrow system and it will get delivered when you are satisfied with the product or service.</p>
+                </div>
+
+                <div class="border border-gray-300 rounded-xl px-6 py-9 space-y-4 hover:shadow-lg hover:bg-gradient-to-r from-(--clr--primary--100) to-(--clr--secondary--100) group cursor-pointer transition duration-500 ease-in-out">
+                    <h2 class="text-center text-3xl text-(--clr--secondary--100) font-bold group-hover:text-white">04</h2>
+                    <p class="text-center font-bold group-hover:text-white lg:text-xl">Access Time</p>
+                    <p class="text-center text-gray-600 group-hover:text-white">Experience the flexibility of accessing our SaaS platform anytime, anywhere, on any device, enabling location-based search from where you are.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="p-4" id="faq">
+            <h2 class="text-center uppercase text-2xl text-(--clr--secondary--100) lg:text-3xl font-bold">Faq's</h2>
+
+            <div class="accordion-containter grid place-center gap-4 md:p-6 mx-auto lg:max-w-4/5">
+                
+                <div class="accordion-item bg-gray-100 px-2 py-4 rounded-xl">
+                    <button id="accordion-btn" class="accordion-btn flex flex-col md:flex-row text-left md:justify-between w-full cursor-pointer">
+                        How do I become a seller on Byre?
+            
+                        <div class="icons">
+                            <img class="plus-icon btn-icon" src="/images/icon-plus.svg" alt="plus icon">
+                            <img class="minus-icon hidden btn-icon"  src="/images/icon-minus.svg" alt="minus">
+                        </div>
+                    </button>
+                
+                    <div class="accordion-description max-h-0 overflow-hidden bg-white">
+                    <p class="p-4 text-sm">
+                    Sign up as a seller by clicking the "Sign Up" button and choosing the "seller" option. Upload your business profile photo, images and videos of your product or service on your store.</p>
+                    </div>
+            
+                </div>
+
+                <div class="accordion-item bg-gray-100 px-2 py-4 rounded-xl">
+                    <button id="accordion-btn" class="accordion-btn flex flex-col md:flex-row text-left md:justify-between md:items-center w-full cursor-pointer">
+                        How do I avoid being scammed by service and product sellers?
+            
+                        <div class="icons">
+                            <img class="plus-icon btn-icon" src="/images/icon-plus.svg" alt="plus icon">
+                            <img class="minus-icon hidden btn-icon"  src="/images/icon-minus.svg" alt="minus">
+                        </div>
+                    </button>
+                
+                    <div class="accordion-description max-h-0 overflow-hidden bg-white">
+                    <p class="p-4 text-sm">
+                    During the hiring and buying process, you pay into an escrow account with us. The money is only transferred if you are satisfied with your product or service. You also get to read reviews and ratings of each business owner before purchase.</p>
+                    </div>
+            
+                </div>
+
+                <div class="accordion-item bg-gray-100 px-2 py-4 rounded-xl">
+                    <button id="accordion-btn" class="accordion-btn flex flex-col md:flex-row text-left md:justify-between md:items-center w-full cursor-pointer">
+                        Can I be tracked using my location as a seller?
+            
+                        <div class="icons">
+                            <img class="plus-icon btn-icon" src="/images/icon-plus.svg" alt="plus icon">
+                            <img class="minus-icon hidden btn-icon"  src="/images/icon-minus.svg" alt="minus">
+                        </div>
+                    </button>
+                
+                    <div class="accordion-description max-h-0 overflow-hidden bg-white">
+                    <p class="p-4 text-sm">
+                    We do not disclose the location of online business owners. For those businesses that are on-site, we only disclose the information about your location at your approval.</p>
+                    </div>
+            
+                </div>
+
+                <div class="accordion-item bg-gray-100 px-2 py-4 rounded-xl">
+                    <button id="accordion-btn" class="accordion-btn flex flex-col md:flex-row text-left md:justify-between md:items-center w-full cursor-pointer">
+                        Can I track my business deals on Byre?
+            
+                        <div class="icons">
+                            <img class="plus-icon btn-icon" src="/images/icon-plus.svg" alt="plus icon">
+                            <img class="minus-icon hidden btn-icon"  src="/images/icon-minus.svg" alt="minus">
+                        </div>
+                    </button>
+                
+                    <div class="accordion-description max-h-0 overflow-hidden bg-white">
+                    <p class="p-4 text-sm">
+                    Byre gives each business a dashboard overview that gives analysis on your business sales, bookings, revenue, etc. Byre keeps your business accountable to you!</p>
+                    </div>
+            
+                </div>
+                    
+            </div>
+        </section>
+
+        <section class="flex flex-col gap-6 p-4 md:flex-row md:justify-center md:items-center md:gap-9 lg:justify-between p-6" id="contact">
+
+            <article class="space-y-4 lg:w-[45%]">
+                <h2 class="uppercase text-xl text-(--clr--secondary--100) text-center md:text-left lg:font-bold">Get in touch</h2>
+                <h3 class="font-bold text-center lg:text-left">We're Here to make magic happen!</h3>
+
+                <div class="flex flex-col gap-4">
+
+                    <div class="flex gap-6">
+                        <div class="w-10 h-10 bg-(--clr--secondary--500) flex">
+                            <img src="/images/mail-outline.svg"  alt="mail" class="w-8 mx-auto">
+                        </div>
+                        <div>
+                            <p class="font-bold">Mail</p>
+                            <p class="text-gray-600">dking@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-6">
+                        <div class="w-10 h-10 bg-(--clr--secondary--400) flex">
+                            <img src="/images/location-outline.svg" alt="location" class="w-8 mx-auto">
+                        </div>
+                        <div>
+                            <p class="font-bold">Address</p>
+                            <p class="text-gray-600">Bowen University</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-6">
+                        <div class="w-10 h-10 bg-(--clr--secondary--700) flex">
+                            <img src="/images/call-outline.svg"  alt="phone" class="w-8 mx-auto">
+                        </div>
+                        <div>
+                            <p class="font-bold">Phone</p>
+                            <p class="text-gray-600">+234 70-1548-2220</p>
+                        </div>
+                    </div>
+
+                </div>
+            </article>
+
+            <form class="border border-gray-300 py-12 px-6 rounded-2xl flex flex-col gap-9 lg:w-[45%]" action="https://formsubmit.co/85310e20d0689dc74e28650f714f13b9" method="POST">
+                <h3 class="font-bold text-xl">Subscribe to Our Waiting list!</h3>
+
+                <label name="name" class="flex flex-col gap-2 font-bold">
+                    Business Name
+                    <input type="text" name="Name" required placeholder="TM enterprise" class="border border-gray-300 p-4 rounded-xl bg-gray-100 placeholder:text-gray-600 font-medium focus:bg-white">
+                </label>
+
+                <label name="Email" class="flex flex-col gap-2 font-bold">
+                    Business Email
+                    <input type="email" name="Email Address" required  placeholder="TM_ent@gmail.com" class="border border-gray-300 p-4 rounded-xl bg-gray-100 placeholder:text-gray-600 font-medium focus:bg-white">
+                </label>
+
+                <input type="submit" value="Subscribe" class="w-fit py-2 px-9 rounded-2xl bg-(--clr--secondary--100) text-white hover:shadow-lg cursor-pointer">
+            </form>
+
+        </section>
+
+    </main>
+    
+    <footer class="m-4 bg-gradient-to-r from-(--clr--primary--100) to-(--clr--secondary--100) px-4 py-9 rounded-2xl space-y-4 lg:space-y-6">
+
+        <div class="grid gap-9 md:grid-cols-2 lg:grid-cols-4 place-center">
+
+            <div class="w-20">
+                <img src="/images/Group 3.png" alt="logo">
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-white text-xl">Company</h3>
+
+                <ul class="space-y-2">
+                    <li class="text-white">Features</li>
+                    <li class="text-white">Subscription</li>
+                    <li class="text-white">How it works</li>
+                    <li class="text-white">Testimonials</li>
+                </ul>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-white text-xl">About</h3>
+
+                <ul class="space-y-2">
+                    <li class="text-white">FAQ</li>
+                    <li class="text-white">Privacy policy</li>
+                    <li class="text-white">Terms & conditions</li>
+                </ul>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-white text-xl">Follow Updates</h3>
+
+                <ul class="flex items-center gap-6">
+                    <li>
+                        <a href="#">
+                            <div class="bg-white w-10 h-10 rounded-full p-1">
+                                <img src="/images/logo-facebook.svg" alt="FB">
+                            </div>
+                            
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://x.com/ByreOfficial">
+                            <div class="bg-white w-10 h-10 rounded-full p-1">
+                                <img src="/images/logo-twitter.svg" alt="X">
+                            </div>
+                            
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="bg-white w-10 h-10 rounded-full p-1">
+                                <img src="/images/logo-instagram.svg" alt="IG">
+                            </div>
+                            
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-2">
+            <p class="text-white font-bold">Copyright &copy; 2023</p>
+            <p class="text-gray-400">All rights reserved</p>
+        </div>
+    </footer>
+
+
+
+
+
+
+
+<script src="./app.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
